@@ -1,5 +1,6 @@
 //primeramente creamos una clase Timer
 //donde vamos a hacer todo nuestro codigo
+//pero unicamente del timer, no del borde animado
 class Timer {
     constructor(durationInput, startButton, pauseButton) {
         this.durationInput = durationInput;
@@ -8,25 +9,28 @@ class Timer {
 
         this.startButton.addEventListener('click', this.start);
         this.pauseButton.addEventListener('click', this.pause);
-        // this.durationInput.addEventListener('input', this)
     }
-    start() {
-        // return `Vamos a comenzar nuestro Timer!`;
-        console.log('Vamos a comenzar nuestro timer!');
-        return 'El timer ha comenzado'
+    start = () => {
+        this.tick();
+        this.interval = setInterval(this.tick, 1000);
     }
-    pause() {
-        // return `El timer se ha pausado.`;
-        console.log('El timer se ha pausado');
-        return "El timer se ha pausado"
+    pause = () => {
+        clearInterval(this.interval);
     }
-    onDurationChange() {
-
-    }
-    tick() {
-
+    tick = () => {
+        if (this.timeRemaining <= 0) {
+            this.pause()
+        } else {
+            this.timeRemaining = this.timeRemaining - 1;
+        }
     }
 
+    get timeRemaining() {
+        return parseFloat(this.durationInput.value);
+    };
+    set timeRemaining(time) {
+        this.durationInput.value = time;
+    };
 }
 
 const durationInput = document.querySelector("#duration");
